@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio digital · Haz de electrones</title>
+<style>
+:root{color-scheme:light;--panel:#fff;--line:#d5dde2;--text:#253746;--muted:#607382;--accent:#247fc3}
+*{box-sizing:border-box}body{margin:0;padding:22px;font:16px system-ui,Arial;background:#edf1f3;color:var(--text)}main{max-width:900px;margin:auto}
+h1{font-size:clamp(22px,4vw,31px);margin:5px 0 18px}.eyebrow,.muted{color:var(--muted)}.eyebrow{font-size:12px;letter-spacing:.08em}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+svg{width:100%;height:auto;display:block}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+button{border:1px solid #b8c7d1;background:#f5f8fa;color:#253746;border-radius:9px;padding:10px 15px;font-weight:650;cursor:pointer;margin:3px}
+button:hover,button:focus{border-color:var(--accent);outline:none}input[type=range]{width:100%;accent-color:var(--accent);margin:13px 0}.small{font-size:13px}
+@media(max-width:600px){body{padding:12px}.panel{padding:11px}}
+</style></head><body><main>
+<div class="eyebrow">EXPERIMENTO DE ELECTROMAGNETISMO</div><h1>Desviación magnética de un haz de electrones</h1>
+<section class="panel">
+<div class="row"><b>Vista esquemática · Imán en forma de U</b><span class="small muted">El imán permanece fijo</span></div>
+<svg viewBox="0 0 700 470" role="img" aria-label="Imán de herradura con polos S y N y haz de electrones que sigue una trayectoria en L">
+<defs>
+<linearGradient id="magBody" x2="1" y2="0"><stop stop-color="#73818b"/><stop offset=".45" stop-color="#d1d6d8"/><stop offset="1" stop-color="#657580"/></linearGradient>
+<filter id="beamGlow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#4c91c8"/></marker>
+</defs>
+<rect width="700" height="470" rx="10" fill="#f0f1ed"/>
+<g fill="none" stroke="#a0a7aa" stroke-width="2" opacity=".4"><path d="M30 80H670M30 400H670"/></g>
+<!-- Imán de herradura -->
+<path d="M220 168V315Q220 420 350 420Q480 420 480 315V168H414V310Q414 354 350 354Q286 354 286 310V168Z" fill="url(#magBody)" stroke="#43535e" stroke-width="4"/>
+<path d="M220 168L253 143H319L286 168Z M414 168L447 143H513L480 168Z" fill="#e0e5e8" stroke="#52616b" stroke-width="2"/>
+<text x="253" y="216" font-size="39" font-weight="bold" fill="#fff" text-anchor="middle">S</text><text x="447" y="216" font-size="39" font-weight="bold" fill="#fff" text-anchor="middle">N</text>
+<text x="350" y="245" fill="#344c5e" font-size="14" text-anchor="middle">CAMPO MAGNÉTICO</text>
+<g stroke="#4c91c8" stroke-width="2" fill="none" opacity=".7" marker-end="url(#arrowBlue)"><path d="M300 174H397"/><path d="M300 190H397"/><path d="M300 206H397"/></g>
+<!-- Trayectoria de referencia -->
+<path d="M25 155H350V40" fill="none" stroke="#247ebd" stroke-width="4" stroke-dasharray="7 8" opacity=".3"/>
+<path d="M25 155H350V40" fill="none" stroke="#287fc3" stroke-width="2" stroke-dasharray="8 8"/>
+<g id="electronDots" filter="url(#beamGlow)" fill="#0784df"><circle r="6"/><circle r="6"/><circle r="6"/><circle r="6"/><circle r="6"/><circle r="6"/></g>
+<g font-size="17" fill="#273c4d" font-weight="600"><text x="28" y="117">Haz de electrones</text><text x="369" y="48">Desviación</text><text x="195" y="448">Imán en forma de U</text></g>
+<g stroke="#344d5e" stroke-width="1.5" fill="none"><path d="M120 123L145 149"/><path d="M385 52L357 75"/></g>
+<path d="M50 181H165" stroke="#4c91c8" stroke-width="2" marker-end="url(#arrowBlue)"/><text x="50" y="205" font-size="13" fill="#315b7a">Velocidad inicial</text>
+<path d="M375 95V52" stroke="#4c91c8" stroke-width="2" marker-end="url(#arrowBlue)"/><text x="390" y="85" font-size="13" fill="#315b7a">Fuerza magnética</text>
+</svg>
+<div class="small muted">Los puntos azules representan electrones que avanzan por la trayectoria ilustrada. La trayectoria de referencia se mantiene fija.</div>
+</section>
+<section class="panel">
+<div class="row"><b>Control del movimiento</b><span id="status" class="small muted">En movimiento</span></div>
+<div style="margin:12px 0"><button id="start">▶ Iniciar</button><button id="pause">Ⅱ Pausar</button><button id="reset">↺ Reiniciar</button></div>
+<label for="speed"><b>Velocidad de animación</b></label><input id="speed" type="range" min="1" max="10" value="5" step="1"/>
+<div class="row small muted"><span>Lenta</span><span>Media</span><span>Rápida</span></div>
+<p class="small muted" id="info" aria-live="polite">Los electrones avanzan horizontalmente y después se desvían hacia arriba.</p>
+</section>
+<section class="panel"><b>¿Qué estás observando?</b><p class="small muted">Un electrón es una partícula con carga negativa. Cuando se mueve dentro de un campo magnético, experimenta una fuerza magnética perpendicular a su velocidad y al campo. Esa fuerza cambia la dirección de su movimiento. La L es una representación didáctica de una desviación de 90°; en un campo uniforme real, la trayectoria de una partícula cargada es curva y no forma una esquina perfectamente recta.</p></section>
+</main>
+<script>
+(()=>{const $=id=>document.getElementById(id),dots=[...document.querySelectorAll('#electronDots circle')];let running=true,speed=5,phase=0,last=0;
+function pos(p){return p<=1?{x:25+p*325,y:155}:{x:350,y:155-(p-1)*115}}
+function frame(t){if(!last)last=t;let dt=Math.min((t-last)/1000,.05);last=t;if(running){phase=(phase+dt*speed*.48)%2;dots.forEach((d,i)=>{const q=pos((phase+i*.33)%2);d.setAttribute('cx',q.x);d.setAttribute('cy',q.y)})}requestAnimationFrame(frame)}
+function place(){dots.forEach((d,i)=>{const q=pos((i*.33)%2);d.setAttribute('cx',q.x);d.setAttribute('cy',q.y)})}
+$('speed').addEventListener('input',e=>{speed=+e.target.value;$('info').textContent='Velocidad de animación: '+speed+'/10. El haz sigue la trayectoria en forma de L.'});
+$('start').onclick=()=>{running=true;$('status').textContent='En movimiento';$('info').textContent='El haz de electrones está avanzando y desviándose.'};
+$('pause').onclick=()=>{running=false;$('status').textContent='Pausado';$('info').textContent='Haz de electrones detenido en su posición actual.'};
+$('reset').onclick=()=>{running=false;phase=0;place();$('status').textContent='Reiniciado';$('info').textContent='Haz de electrones en posición inicial. Pulsa Iniciar para comenzar.'};
+place();requestAnimationFrame(frame);
+})();
+</script></body></html>
